@@ -44,7 +44,7 @@ void loop() {
         // put your main code here, to run repeatedly:
         val=analogRead(photoled);
         getFingerprintIDez();
-        delay(50); //pas besoin d'attendre trop longtemps
+        delay(50); //petit délai
         digitalWrite(ledr, HIGH);
         if(val<50){ 
             digitalWrite(buz, HIGH);delay(500);
@@ -54,44 +54,40 @@ void loop() {
         // cette fonction retourne -1 si l'empreinte n'est pas valide et et retourne l'ID sinon
         int getFingerprintIDez()
         {
-        uint8_t p=finger.getImage(); // on
-        enregistre l'image de l'empreinte
-        if (p!=FINGERPRINT_OK) {
-        return
-        -1;
-        }// on sort
-        si l'image ne correspond a aucune enregistré
-        p=finger.image2Tz();
-        if(p!=FINGERPRINT_OK) {
-        ;
-        return -1;
-        }
-        p=finger.fingerFastSearch(); // on
-        recherche l'empreintes parmi celles enregistrées
-        if(p!=FINGERPRINT_OK) {
-        return -1;
-        }// on sors
-        si l'empreintes n'est pas trouvée
-        //a ce nivaeu l'empreinte est reconnu
-        for(int i=180;i>=0;i-=1)
-        { myservo.write(i);
-        delay(15);
-        }
-        digitalWrite(ledv,HIGH);
-        digitalWrite(ledr,LOW);
-        myservo.write(0);
-        delay(5000);
-        for(int i=0;i<=180;i+=1)
-        { myservo.write(i);
-        delay(15);
-        }
-        delay(1000);
-        digitalWrite(ledv,LOW);
-        digitalWrite(ledr,HIGH);
-        Serial.print("Identifiant trouvé");
-        Serial.print(finger.fingerID);
-        Serial.print("avec une confiance de
-        ");
-        Serial.print(finger.confidence);
-        return finger.fingerID;
+                  uint8_t p=finger.getImage(); // on
+                  enregistre l'image de l'empreinte
+                  if (p!=FINGERPRINT_OK) {
+                       return -1;
+                  }// on sort si l'image ne correspond a aucune enregistré
+                  p=finger.image2Tz();
+                  if(p!=FINGERPRINT_OK) {
+                       return -1;
+                  }
+                  p=finger.fingerFastSearch(); // on recherche l'empreintes parmi celles enregistrées
+                  if(p!=FINGERPRINT_OK) {
+                        return -1;
+                  }// on sors si l'empreintes n'est pas trouvée
+                    //a ce nivaeu l'empreinte est reconnu
+                  for(int i=180;i>=0;i-=1)
+                  { 
+                            myservo.write(i);
+                            delay(15);
+                  }
+                  digitalWrite(ledv,HIGH);
+                  digitalWrite(ledr,LOW);
+                  myservo.write(0);
+                  delay(5000);
+                  for(int i=0;i<=180;i+=1)
+                  { 
+                            myservo.write(i);
+                            delay(15);
+                  }
+                  delay(1000);
+                  digitalWrite(ledv,LOW);
+                  digitalWrite(ledr,HIGH);
+                  Serial.print("Identifiant trouvé");
+                  Serial.print(finger.fingerID);
+                  Serial.print(" avec une confiance de ");
+                  Serial.print(finger.confidence);
+                  return finger.fingerID;
 }
